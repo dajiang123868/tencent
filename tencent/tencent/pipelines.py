@@ -8,6 +8,8 @@ import json
 
 from tencent.items import TencentItem
 
+from tencent.items import TencentItem2
+
 
 class TencentPipeline(object):
     def __init__(self):
@@ -15,6 +17,20 @@ class TencentPipeline(object):
 
     def process_item(self, item, spider):
         if isinstance(item, TencentItem):
+            str_data = json.dumps(dict(item), ensure_ascii=False) + ',\n'
+            self.file.write(str_data)
+        return item
+
+    def close_spider(self, spider):
+        self.file.close()
+
+
+class TencentPipeline2(object):
+    def __init__(self):
+        self.file = open('tencent2.json', 'w')
+
+    def process_item(self, item, spider):
+        if isinstance(item, TencentItem2):
             str_data = json.dumps(dict(item), ensure_ascii=False) + ',\n'
             self.file.write(str_data)
         return item
